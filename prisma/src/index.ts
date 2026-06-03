@@ -1,0 +1,9 @@
+import { PrismaClient } from "../../lib/generated";
+import { withAccelerate } from '@prisma/extension-accelerate' // you need not use @prisma/extension-accelerate if using neonDB
+
+const globalForPrisma = global as unknown as { prisma: PrismaClient };
+
+export const prisma =
+  globalForPrisma.prisma || new PrismaClient().$extends(withAccelerate());
+
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
