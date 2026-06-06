@@ -1,0 +1,138 @@
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../lib/generated"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  directUrl  = env("DIRECT_URL")
+  extensions = [vector]
+}
+
+model User {
+  id               String            @id @default(cuid())
+  name             String?
+  email            String            @unique
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  image            String?
+  emailVerified    DateTime?
+  accounts         Account[]
+  sessions         Session[]
+  summaries        PdfSummary[]
+  documents        Document[]
+  feature_progress FeatureProgress[]
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+model PdfSummary {
+  id                String   @id @default(uuid())
+  user_id           String
+  user              User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  original_file_url String   @db.Text
+  summary_text      String   @db.Text
+  title             String?  @db.Text
+  file_name         String?  @db.Text
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}
+
+model Document {
+  id                String  @id @default(uuid())
+  user_id           String
+  user              User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  original_file_url String  @db.Text
+  file_name         String? @db.Text
+  file_key          String  @db.Text
+  file_size         String? @db.Text
+  markdown_text     String? @db.Text
+
+  chunks            DocumentChunk[]
+  generated_content GeneratedContent[]
+  chatMessages      Json?
+  created_at        DateTime           @default(now())
+  updated_at        DateTime           @updatedAt
+}
+
+model DocumentChunk {
+  id          String   @id @default(uuid())
+  document_id String
+  document    Document @relation(fields: [document_id], references: [id], onDelete: Cascade)
+
+  text     String @db.Text
+  metadata Json
+
+  embedding Unsupported("vector(2048)")?
+
+  created_at DateTime @default(now())
+}
+
+model GeneratedContent {
+  id          String   @id @default(uuid())
+  document_id String
+  document    Document @relation(fields: [document_id], references: [id], onDelete: Cascade)
+
+  feature_type String
+  title        String?
+  data         Json
+
+  progress FeatureProgress[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model FeatureProgress {
+  id      String @id @default(uuid())
+  user_id String
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  generated_content_id String
+  generated_content    GeneratedContent @relation(fields: [generated_content_id], references: [id], onDelete: Cascade)
+
+  is_completed Boolean @default(false)
+  scores       Json?
+  attempts     Json?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@unique([user_id, generated_content_id])
+}
