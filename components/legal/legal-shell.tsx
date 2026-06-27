@@ -25,8 +25,8 @@ export function LegalShell({
           <p>
             Have a question or concern? You can reach the founder of DocuMind
             directly at{" "}
-            <a href="mailto:support@documind.fun">
-              support@documind.fun
+            <a href="mailto:workwithdeepnav@gmail.com">
+              workwithdeepnav@gmail.com
             </a>{" "}
             — a real person who will personally read and respond.
           </p>

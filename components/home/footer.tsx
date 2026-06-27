@@ -39,7 +39,7 @@ export default function Footer() {
               <FaLinkedinIn className="w-4 h-4" />
             </Link>
             <Link
-              href="#"
+              href="mailto:workwithdeepnav@gmail.com"
               className="hover:text-white bg-blue-500/50 hover:bg-blue-400/30 transition-colors p-2 rounded-full border border-blue-400/20"
             >
               <MdEmail className="w-4 h-4" />
@@ -47,9 +47,13 @@ export default function Footer() {
           </div>
 
           <div
-            className={`${sans.className} flex flex-wrap items-center justify-center text-xs text-blue-200`}
+            className={`${sans.className} flex flex-wrap items-center justify-center gap-2 text-xs text-blue-200`}
           >
-            © {new Date().getFullYear()} DocuMind. All rights reserved.
+            <span>© {new Date().getFullYear()} DocuMind. All rights reserved.</span>
+            <span>•</span>
+            <a href="https://navdeep.site/" target="_blank" rel="noopener noreferrer" className="hover:text-white underline underline-offset-2">
+              Made by Navdeep Singh
+            </a>
           </div>
         </div>
       </div>

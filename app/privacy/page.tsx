@@ -133,8 +133,8 @@ export default async function PrivacyPage() {
           Your privacy matters to us. For any privacy question or data request —
           including deleting your account and data — you can email the founder of
           DocuMind directly at{" "}
-          <a href="mailto:support@documind.fun">
-            support@documind.fun
+          <a href="mailto:workwithdeepnav@gmail.com">
+            workwithdeepnav@gmail.com
           </a>
           . Every message is read and answered personally.
         </p>

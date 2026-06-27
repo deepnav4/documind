@@ -147,8 +147,8 @@ export default async function TermsPage() {
         <p>
           Questions about these Terms? You can reach the founder of DocuMind
           directly at{" "}
-          <a href="mailto:support@documind.fun">
-            support@documind.fun
+          <a href="mailto:workwithdeepnav@gmail.com">
+            workwithdeepnav@gmail.com
           </a>
           . Every message is read and answered personally.
         </p>
