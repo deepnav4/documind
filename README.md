@@ -1,6 +1,6 @@
 # DocuMind
 
-**Backend document-processing microservice:** [structured-pdf-data](https://github.com/your-username/structured-pdf-data)
+**Backend document-processing microservice:** [structured_pdf_data](https://github.com/deepnav4/structured_pdf_data)
 
 DocuMind is a structured PDF intelligence platform that turns PDFs into an interactive study workspace. Users can upload a document and generate AI-powered chat, flashcards, quizzes, and mind maps from it.
 
