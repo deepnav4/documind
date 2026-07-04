@@ -10,6 +10,8 @@ import {useState, useEffect, useMemo} from "react";
 import { cn } from "@/lib/utils";
 import { PdfPageProvider } from "../individual-project/pdf-page-context";
 
+import { useTheme } from "next-themes";
+
 type TResizablePanelExampleProps = {
   url: string;
   generatedContent?: any[];
@@ -21,6 +23,8 @@ export function ResizablePanelExample({
   generatedContent = [],
   documentContextForChat,
 }: TResizablePanelExampleProps) {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
   const [page, setPage] = useState(1);
   const [showNudge, setShowNudge] = useState(false);
 
@@ -78,11 +82,17 @@ export function ResizablePanelExample({
           </ResizableHandle>
           <ResizablePanel minSize={10} defaultSize={80}>
             <div className="flex h-full w-full items-center justify-center p-2 pb-1">
-              <iframe
-                key={page}
-                src={`${url}#page=${page}`}
-                className="w-full h-full rounded-none hidden md:block"
-              />
+              <div className={cn(
+                "w-full h-full overflow-hidden relative rounded-none hidden md:block border border-muted",
+                isDark ? "bg-[#18181b]" : "bg-[#f4f4f5]"
+              )}>
+                <iframe
+                  key={page}
+                  src={`${url}#toolbar=0&navpanes=0&view=FitH&page=${page}`}
+                  className="w-full h-full border-none"
+                  style={{ border: 'none' }}
+                />
+              </div>
               <iframe
                 src={`https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`}
                 className="w-full h-full rounded-md rounded-b-none md:hidden"
@@ -95,11 +105,17 @@ export function ResizablePanelExample({
         <ResizablePanelGroup orientation="horizontal" className="h-full w-full">
           <ResizablePanel minSize={10} defaultSize={40}>
             <div className="flex h-full items-center justify-center p-6 pb-1">
-              <iframe
-                key={page}
-                src={`${url}#page=${page}`}
-                className="w-full h-full rounded-md rounded-b-none"
-              />
+              <div className={cn(
+                "w-full h-full overflow-hidden relative rounded-md rounded-b-none border border-muted",
+                isDark ? "bg-[#18181b]" : "bg-[#f4f4f5]"
+              )}>
+                <iframe
+                  key={page}
+                  src={`${url}#toolbar=0&navpanes=0&view=FitH&page=${page}`}
+                  className="w-full h-full border-none"
+                  style={{ border: 'none' }}
+                />
+              </div>
             </div>
           </ResizablePanel>
 
